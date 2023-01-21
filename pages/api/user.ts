@@ -11,9 +11,9 @@ const endpoint = async (req: NextApiRequest, res: NextApiResponse<DefaultMessage
             return res.status(405).json({ error: 'Método informado não existe' });
         }
 
-        const { MY_SECRET_KEY } = process.env;
-        if (!MY_SECRET_KEY) {
-            return res.status(500).json({ error: 'Env MY_SECRET_KEY não informada' });
+        const {MY_SECRET_KEY} = process.env;
+        if(!MY_SECRET_KEY){
+            return res.status(500).json({error : 'Env MY_SECRET_KEY não informada'});
         }
 
         if (!req.body) {
@@ -22,20 +22,20 @@ const endpoint = async (req: NextApiRequest, res: NextApiResponse<DefaultMessage
 
         const user = req.body as User;
 
-        if (!user.name || user.name.length < 2) {
+        if(!user.name || user.name.length < 2){
             return res.status(400).json({ error: 'Nome não é válido' });
         }
 
-        if (!user.email || user.email.length < 6) {
+        if(!user.email || user.email.length < 6){
             return res.status(400).json({ error: 'Email não é válido' });
         }
 
-        if (!user.password || user.password.length < 6) {
+        if(!user.password || user.password.length < 6){
             return res.status(400).json({ error: 'Senha não é válida' });
         }
 
-        const existsWithSameEmail = await UserModel.find({ email: user.email });
-        if (existsWithSameEmail && existsWithSameEmail.length > 0) {
+        const existsWithSameEmail = await UserModel.find({email: user.email});
+        if(existsWithSameEmail && existsWithSameEmail.length > 0){
             return res.status(400).json({ error: 'Email já cadastrado' });
         }
 

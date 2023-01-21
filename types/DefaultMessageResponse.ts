@@ -1,4 +1,4 @@
 export type DefaultMessageResponse = {
-    error?: string,
+    error? : string,
     msg?: string
 }
