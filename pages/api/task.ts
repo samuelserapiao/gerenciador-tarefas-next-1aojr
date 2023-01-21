@@ -62,6 +62,10 @@ const updateTask = async (req: NextApiRequest, res: NextApiResponse<DefaultMessa
         }
 
         if (task.finishPrevisionDate) {
+            if (moment(task.finishPrevisionDate).isBefore(moment(), 'day')) {
+                return res.status(400).json({ error: 'Data de previsao invalida ou menor que hoje' });
+            }
+
             taskFound.finishPrevisionDate = task.finishPrevisionDate;
         }
 
@@ -142,7 +146,7 @@ const saveTask = async (req: NextApiRequest, res: NextApiResponse<DefaultMessage
             return res.status(400).json({ error: 'Nome da tarefa invalida' });
         }
 
-        if (!task.finishPrevisionDate || moment(task.finishPrevisionDate).isBefore(moment())) {
+        if (!task.finishPrevisionDate || moment(task.finishPrevisionDate).isBefore(moment(), 'day')) {
             return res.status(400).json({ error: 'Data de previsao invalida ou menor que hoje' });
         }
 
